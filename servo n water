@@ -1,0 +1,43 @@
+
+#define AOUT_PIN A0 // Arduino pin that connects to AOUT pin of moisture sensor
+#define THRESHOLD 100 // CHANGE YOUR THRESHOLD HERE
+#include <Servo.h>
+
+Servo myservo;//create servo object to control a servo
+
+void setup() {
+  Serial.begin(9600);
+  myservo.attach(15);//attachs the servo on pin 15 to servo object
+  myservo.write(0);//back to 0 degrees
+  delay(1000);//wait for a second
+}
+
+void loop() {
+  int value = analogRead(AOUT_PIN); // read the analog value from sensor
+
+  if (value < THRESHOLD){
+    for (int i = 0; i <= 180; i++)
+  {
+    myservo.write(i); //write the i angle to the servo
+    delay(15); //delay 15ms
+  }
+    Serial.print("The soil is DRY (");
+  else{
+    for (int i = 180; i >= 0; i--)
+  {
+    myservo.write(i); //write the i angle to the servo
+    delay(15); //delay 15ms
+  }
+    Serial.print("The soil is WET (");
+
+  Serial.print(value);
+  Serial.println(")");
+
+
+  delay(500);
+}
+
+
+
+
+
